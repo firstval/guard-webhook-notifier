@@ -7,4 +7,6 @@ module GuardWebHookNotifier
   def register(name = 'webhook')
     Guard::Notifier::NOTIFIERS << { name => Notifier }
   end
+
+  module_function :register
 end
