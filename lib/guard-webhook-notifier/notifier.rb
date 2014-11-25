@@ -6,7 +6,8 @@ module GuardWebHookNotifier
   class Notifier < Guard::Notifier::Base
     DEFAULTS = {
       user_agent: "GuardWebHookNotifier/#{VERSION}",
-      url: "http://10.0.2.2:4001/"
+      url: "http://10.0.2.2:4001/",
+      timeout: 1
     }
 
     def initialize(opts = {})
@@ -16,11 +17,19 @@ module GuardWebHookNotifier
 
     def notify(message, opts = {})
       super
+      send(message, opts) rescue Faraday::Error
+    end
+
+    private
+
+    def send(message, opts)
       conn = Faraday.new(url: opts[:url])
       conn.post do |req|
         req.headers["Content-Type"] = "application/json"
         req.headers["User-Agent"] = opts[:user_agent]
         req.body = { message: message, options: opts }.to_json
+        req.options.timeout = opts[:timeout]
+        req.options.open_timeout = opts[:timeout]
       end
     end
   end

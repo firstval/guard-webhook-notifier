@@ -27,5 +27,13 @@ describe GuardWebHookNotifier::Notifier do
       subject
       expect(stub).to have_been_requested.once
     end
+
+    context 'when timeout occurs' do
+      before do
+        stub_request(:post, '10.0.2.2:4001').to_timeout
+      end
+
+      it { expect { subject }.not_to raise_error }
+    end
   end
 end
