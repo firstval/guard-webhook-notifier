@@ -6,8 +6,7 @@ module GuardWebHookNotifier
   class Notifier < Guard::Notifier::Base
     DEFAULTS = {
       user_agent: "GuardWebHookNotifier/#{VERSION}",
-      url: "http://10.0.2.2:4001/",
-      timeout: 1
+      url: "http://10.0.2.2:4001/"
     }
 
     def initialize(opts = {})
@@ -28,8 +27,6 @@ module GuardWebHookNotifier
         req.headers["Content-Type"] = "application/json"
         req.headers["User-Agent"] = opts[:user_agent]
         req.body = { message: message, options: opts }.to_json
-        req.options.timeout = opts[:timeout]
-        req.options.open_timeout = opts[:timeout]
       end
     end
   end
