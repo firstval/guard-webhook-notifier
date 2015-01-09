@@ -1,9 +1,9 @@
 require "faraday"
-require "guard/notifiers/base"
+require "notiffany/notifier/base"
 require "json"
 
 module GuardWebHookNotifier
-  class Notifier < Guard::Notifier::Base
+  class Notifier < Notiffany::Notifier::Base
     DEFAULTS = {
       user_agent: "GuardWebHookNotifier/#{VERSION}",
       url: "http://10.0.2.2:4001/"
